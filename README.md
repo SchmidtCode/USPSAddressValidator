@@ -4,19 +4,21 @@ A simple Python/Tkinter application for validating and standardizing USPS addres
 
 ## Features
 
-- **Tkinter GUI**: Simple user interface to select an Excel file and configure the USPS OAuth token.  
-- **Keyring Integration**: Securely store and retrieve the USPS OAuth token on your system.  
-- **Handles Required/Optional Fields**: Complies with USPS’s requirement for `streetAddress`, `state`, and either `city` or `ZIPCode`. Also supports optional fields like `firm`, `secondaryAddress`, `urbanization`, and `ZIPPlus4`.  
-- **ID Fields**: Pass along up to three ID fields (or more if needed) without sending them to the USPS API, purely for user reference in the output.  
+- **Tkinter GUI**: Simple user interface to select an Excel file and configure the USPS OAuth token.
+- **Keyring Integration**: Securely store and retrieve the USPS OAuth token on your system.
+- **Handles Required/Optional Fields**: Complies with USPS’s requirement for `streetAddress`, `state`, and either `city` or `ZIPCode`. Also supports optional fields like `firm`, `secondaryAddress`, `urbanization`, and `ZIPPlus4`.
+- **ID Fields**: Pass along up to three ID fields (or more if needed) without sending them to the USPS API, purely for user reference in the output.
 - **Output**: Creates a new Excel file (original name + `_validated.xlsx`) containing the original columns plus standardized columns (e.g., `Standardized_StreetAddress`, `Standardized_City`, etc.).
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.7+ (Tested on Python 3.9, 3.10, etc.)
-- [Pipenv](https://pipenv.pypa.io/en/latest/) or [venv](https://docs.python.org/3/tutorial/venv.html) (optional, but recommended for dependency management)
-- A valid USPS Addresses 3.0 OAuth token.
+- Python 3.13
+- [uv](https://docs.astral.sh/uv/) (fast Python package/dependency manager)
+- A valid USPS Addresses 3.0 OAuth token
+
+> **Note:** `tkinter` comes with most Python distributions. On Linux, you may need to install it separately (`sudo apt install python3-tk` on Debian/Ubuntu).
 
 ### Installation
 
@@ -27,33 +29,37 @@ A simple Python/Tkinter application for validating and standardizing USPS addres
    cd usps-address-validator
    ```
 
-2. **(Optional) Create & activate a virtual environment**:
+2. **Create a virtual environment** (managed by uv):
 
    ```bash
-   python -m venv venv
-   source venv/bin/activate   # Mac/Linux
-   # or
-   venv\Scripts\activate      # Windows
+   uv venv
    ```
 
-3. **Install required packages**:
+3. **Install dependencies**:
 
    ```bash
-   pip install -r requirements.txt
+   uv sync
    ```
 
-   (If you do not have a `requirements.txt`, then manually install: `pip install pandas requests keyring openpyxl`.)
+   This will install:
+
+   - `pandas`
+   - `openpyxl`
+   - `requests`
+   - `keyring`
 
 ### Usage
 
 1. **Run the application**:
 
    ```bash
-   python usps_address_validator.py
+   uv run python usps_address_validator.py
    ```
 
 2. **Enter your USPS OAuth token** in the text field (the script uses `keyring` to store it securely).
+
 3. **Click "Update Token"** to save the token in your system keyring.
+
 4. **Click "Select Excel File to Validate"** and choose an Excel file containing the addresses.
 
 After the script completes, you’ll see a popup indicating success and showing the path to your validated file (e.g. `myAddresses_validated.xlsx`).
